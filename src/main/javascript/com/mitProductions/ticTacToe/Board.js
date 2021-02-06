@@ -38,4 +38,17 @@ export default class Board {
 
 		return clone;
 	}
+
+	getAvailableMoves() {
+		let moves = [];
+		this.spots.forEach(function(row, x){
+			row.forEach(function(spot, y) {
+				if (spot === "") {
+					moves.push([x,y]);
+				}
+			});
+		});
+
+		return moves;
+	}
 }

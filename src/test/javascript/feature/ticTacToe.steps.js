@@ -195,10 +195,16 @@ Then('The score should be {int} points', function (expectedPoints) {
 
 Then('The game state to be {string}', function (gameState) {
 	let world = this;
-	
+
 	if (gameState === "active") {
 		world.game.isGameOver().should.equal(false);
 	} else {
 		world.game.isGameOver().should.equal(true);
 	}
+});
+
+Then('I expect this list of moves {array}', function (expectedAvailableMoves) {
+	let world = this;
+
+	world.game.board.getAvailableMoves().should.eql(expectedAvailableMoves);
 });
