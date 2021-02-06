@@ -6,6 +6,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 
 
+
 module.exports = {
 	context: path.join(__dirname, "src"),
 	mode: "none",
@@ -29,6 +30,18 @@ module.exports = {
 				use: 'vue-loader'
 			},
 			{
+				test: /\.css$/,
+				use: [
+					'vue-style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							esModule: false
+						}
+					}
+				]
+			},
+			{
 				test: /\.jsx?$/,
 				enforce: "post",
 				exclude: /(node_modules|bower_components)/,
@@ -42,8 +55,8 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, "target"),
-		publicPath: "/js/",
-		filename: "[name].min.js"
+		publicPath: "/",
+		filename: "js/[name].min.js"
 	},
 	optimization: {
 		occurrenceOrder: true

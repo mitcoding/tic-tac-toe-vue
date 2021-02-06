@@ -6,7 +6,7 @@ import App from './TicTacToe.vue'
 window.Game = Game;
 window.Board = Board;
 
-new Vue({
+window.app = new Vue({
 	el: '#app',
 	render: h => h(App)
 });

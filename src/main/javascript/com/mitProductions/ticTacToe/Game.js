@@ -122,6 +122,10 @@ export default class Game {
 	}
 
 	doMove(x, y) {
+		if (this.isGameOver() === true) {
+			return;
+		}
+		
 		if (!this.player1) {
 			throw new PlayerNotJoined("Player 1");
 		}

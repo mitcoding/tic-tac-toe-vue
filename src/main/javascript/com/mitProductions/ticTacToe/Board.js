@@ -1,18 +1,21 @@
 import SpotNotEmpty from './exceptions/SpotNotEmpty'
+function isEmptyObject(obj) {
+	return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+}
 
 export default class Board {
 	constructor() {
 		this.spots = [
-			["","",""],
-			["","",""],
-			["","",""]
+			[{},{},{}],
+			[{},{},{}],
+			[{},{},{}]
 		];
 
 		this.totalMoves = 0;
 	}
 
 	isSpotEmpty(x, y) {
-		return this.spots[x][y] === "";
+		return isEmptyObject(this.spots[x][y]);
 	}
 
 	doMove(x, y, player) {
@@ -43,7 +46,7 @@ export default class Board {
 		let moves = [];
 		this.spots.forEach(function(row, x){
 			row.forEach(function(spot, y) {
-				if (spot === "") {
+				if (isEmptyObject(spot) ) {
 					moves.push([x,y]);
 				}
 			});

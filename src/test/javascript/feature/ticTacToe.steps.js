@@ -17,33 +17,30 @@ let
 	}
 ;
 
-function convertAllStringNumbersToNumber(array) {
-	return array.map(parseStringToNumber);
-}
-
 function doMove(world, maxMoves) {
-	let x = getRandomNumber0To2(),
-		y = getRandomNumber0To2()
+	let 
+		coords = [
+			[0,0],
+			[0,1],
+			[0,2],
+			[1,0],
+			[1,1],
+			[1,2],
+			[2,0],
+			[2,1],
+			[2,2],
+			[2,3],
+		]
 	;
-	
-	while(world.game.board.totalMoves < maxMoves) {
-		try {
-			world.game.doMove(x, y);
-		} catch(e) {
-			doMove(world, maxMoves);
-		}
 
-		x = getRandomNumber0To2();
-		y = getRandomNumber0To2();
+	while(world.game.board.totalMoves < maxMoves) {
+		let move = coords[world.game.board.totalMoves];
+		world.game.board.doMove(move[0], move[1]);
 	}
 }
 
 function gamePieceToPlayer(gamePiece) {
 	return (gamePiece.toLowerCase() === "x") ? "player1" : "player2";
-}
-
-function getRandomNumber0To2() {
-	return Math.floor(Math.random() * 3);
 }
 
 function parseStringToArray(string) {
@@ -120,15 +117,11 @@ Given('Game board looks like this {array}', function (gameBoard) {
 
 	gameBoard.forEach(function(row, x) {
 		row.forEach(function(gamePiece, y) {
-			if (gamePiece.trim() !== "") {
+			if (gamePiece === "x" || gamePiece === "o") {
 				let player = world.game[gamePieceToPlayer(gamePiece)];
 				world.game.board.doMove(x, y, player);
 				world.game.board.spots[x][y].gamePiece.should.equal(gameBoard[x][y].toUpperCase(), gamePiece + x + y);
-
-			} else {
-				world.game.board.spots[x][y].should.equal(gameBoard[x][y], gamePiece + x + y);
 			}
-
 		});
 	});
 });
@@ -248,7 +241,7 @@ Then('Game should finish looking like this {array}', function (expectedGameBoard
 	let world = this;
 	expectedGameBoard.forEach(function(row, x){
 		row.forEach(function(spot, y){
-			expectedGameBoard[x][y] = spot.toLowerCase() === "x" ? world.game.player1 : world.game.player2;
+			expectedGameBoard[x][y] = spot === "x" ? world.game.player1 : world.game.player2;
 		});
 	});
 
