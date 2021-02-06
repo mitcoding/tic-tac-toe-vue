@@ -20,7 +20,6 @@ export default {
 	},
 	methods: {
 		isPlayerInstance(value) {
-			console.log("spot: isPlayerInstance", this.value);
 			return value instanceof Player;
 		}
 	}
