@@ -14,7 +14,10 @@
   "browserslist": [
     "> 1%"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "vue": "^2.6.12",
+    "vue-router": "^3.5.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-decorators": "^7.6.0",
@@ -33,6 +36,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "core-js": "^3.3.6",
     "cross-env": "^6.0.3",
+    "css-loader": "^5.0.1",
     "cucumber": "^5.0.2",
     "eslint": "^6.5.1",
     "eslint-loader": "^3.0.2",
@@ -48,6 +52,9 @@
     "sinon": "^7.5.0",
     "sinon-chai": "^3.3.0",
     "speed-measure-webpack-plugin": "^1.3.1",
+    "vue-loader": "^15.9.6",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.41.0",
     "webpack-dev-server": "^3.8.2",
     "webpack-merge": "^4.2.2"

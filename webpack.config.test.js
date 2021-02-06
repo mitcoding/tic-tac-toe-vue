@@ -35,7 +35,7 @@ module.exports = smp.wrap(merge(baseConfig, {
 						});
 					});
 
-					return "<html><head><title>Tic Tac Toe</title>" + assetHelper.join("") + "</head><body></body></html>";
+					return '<html><head><title>Tic Tac Toe</title></head><body><div id="app"></div>' + assetHelper.join("") + '</body></html>';
 			}
 		})
 	]

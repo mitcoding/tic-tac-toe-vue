@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 
 
@@ -22,6 +23,10 @@ module.exports = {
 					cache: true
 				}
 					
+			},
+			{
+				test: /\.vue$/,
+				use: 'vue-loader'
 			},
 			{
 				test: /\.jsx?$/,
@@ -57,6 +62,7 @@ module.exports = {
 			allowAsyncCycles: false,
 			// set the current working directory for displaying module paths
 			cwd: process.cwd(),
-		})
+		}),
+		new VueLoaderPlugin()
 	]	
 };
