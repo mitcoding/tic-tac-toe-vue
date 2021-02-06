@@ -13,6 +13,18 @@ Scenario: Board should notify user when they place an item on a non empty place
 	Then User should be informed that 'x' was already placed on the 'Top Left' place
 	And Board should register 1 moves total
 
+Scenario Outline: Game should not let a player make a move if both players haven't joined
+	Given '<gamePiece>' is 'real'
+	When User tries to place an '<gamePiece>' on the '<spotPlayed>' place
+	Then User should be notified that '<playerName>' has not joined yet
+	And Board should register 0 moves total
+
+Examples:
+	| gamePiece | playerName | spotPlayed	 |
+	| x			| Player 2 	 | Middle Middle |
+	| o			| Player 1	 | Bottom Right  |
+
+
 Scenario Outline: As a user I would like know a list of all available moves
 	Given 'X' is 'real'
 	And 'O' is 'real'

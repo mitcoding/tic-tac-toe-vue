@@ -1,5 +1,5 @@
 export default class PlayerNotJoined extends Error {
-	constructor(message) {
-		super(message + " has not joined game yet");
+	constructor(playerName) {
+		super(playerName + " has not joined game yet");
 	}
 }

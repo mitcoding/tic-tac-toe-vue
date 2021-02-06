@@ -1,6 +1,7 @@
 import Board from "../../../main/javascript/com/mitProductions/ticTacToe/Board";
 import Game from "../../../main/javascript/com/mitProductions/ticTacToe/Game";
 import SpotNotEmpty from "../../../main/javascript/com/mitProductions/ticTacToe/exceptions/SpotNotEmpty";
+import PlayerNotJoined from "../../../main/javascript/com/mitProductions/ticTacToe/exceptions/PlayerNotJoined";
 
 let 
 	positionToCoords = {
@@ -149,6 +150,19 @@ When('A User asks what the score is', function () {
 	world.currentScore = world.game.getScore();
 });
 
+When('User tries to place an {string} on the {string} place', function (gamePiece, position) {
+	let 
+		coords = positionToCoords[position],
+		world = this
+	;
+
+	try {
+		world.game.doMove(coords[0], coords[1]);
+	} catch (e) {
+		world.exception = e;
+	}
+});
+
 Then('{string} should have an {string}', function(position, expectedGamePiece) {
 	let 
 		coords = positionToCoords[position],
@@ -207,4 +221,10 @@ Then('I expect this list of moves {array}', function (expectedAvailableMoves) {
 	let world = this;
 
 	world.game.board.getAvailableMoves().should.eql(expectedAvailableMoves);
+});
+
+Then('User should be notified that {string} has not joined yet', function (playerName) {
+	let world = this;
+
+	world.exception.message.should.eql(new PlayerNotJoined(playerName).message);
 });
