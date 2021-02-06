@@ -114,6 +114,24 @@ Given('{int} moves on board', function(intMoves) {
 	doMove(world, intMoves);
 });
 
+Given('Game board looks like this {array}', function (gameBoard) {
+	let world = this;
+
+	gameBoard.forEach(function(row, x) {
+		row.forEach(function(gamePiece, y) {
+			if (gamePiece.trim() !== "") {
+				let player = world.game[gamePieceToPlayer(gamePiece)];
+				world.game.board.doMove(x, y, player);
+				world.game.board.spots[x][y].gamePiece.should.equal(gameBoard[x][y].toUpperCase(), gamePiece + x + y);
+
+			} else {
+				world.game.board.spots[x][y].should.equal(gameBoard[x][y], gamePiece + x + y);
+			}
+
+		});
+	});
+});
+
 When('I ask whose turn it is', function() {
 	let world = this;
 	world.currentPlayer = world.game.getCurrentPlayer();
@@ -123,6 +141,12 @@ When('I ask what {string} is', function(player) {
 	let world = this;
 
 	world.playerTypeResultsMap[player] = world.game[gamePieceToPlayer(player)].type;
+});
+
+When('A User asks what the score is', function () {
+	let world = this;
+
+	world.currentScore = world.game.getScore();
 });
 
 Then('{string} should have an {string}', function(position, expectedGamePiece) {
@@ -161,4 +185,20 @@ Then('Game should tell me that {string} is {string}', function(player, expectedP
 	let world = this;
 	
 	world.playerTypeResultsMap[player].should.equal(expectedPlayerType);
+});
+
+Then('The score should be {int} points', function (expectedPoints) {
+	let world = this;
+
+	world.game.getScore().should.equal(expectedPoints);
+});
+
+Then('The game state to be {string}', function (gameState) {
+	let world = this;
+	
+	if (gameState === "active") {
+		world.game.isGameOver().should.equal(false);
+	} else {
+		world.game.isGameOver().should.equal(true);
+	}
 });
