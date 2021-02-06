@@ -157,10 +157,19 @@ When('User tries to place an {string} on the {string} place', function (gamePiec
 	;
 
 	try {
-		world.game.doMove(coords[0], coords[1]);
+		world.game.doMove(coords.x, coords.y);
 	} catch (e) {
 		world.exception = e;
 	}
+});
+
+When('First player places a x on the {string} place', function (position) {
+	let 
+		coords = positionToCoords[position],
+		world = this
+	;
+	
+	world.game.doMove(coords.x, coords.y);
 });
 
 Then('{string} should have an {string}', function(position, expectedGamePiece) {
@@ -227,4 +236,21 @@ Then('User should be notified that {string} has not joined yet', function (playe
 	let world = this;
 
 	world.exception.message.should.eql(new PlayerNotJoined(playerName).message);
+});
+
+Then('Best move should be {array}', function (expectedCoords) {
+	let world = this;
+
+	world.game.getBestMoveHint().move.should.eql(expectedCoords, " ");
+});
+
+Then('Game should finish looking like this {array}', function (expectedGameBoard) {
+	let world = this;
+	expectedGameBoard.forEach(function(row, x){
+		row.forEach(function(spot, y){
+			expectedGameBoard[x][y] = spot.toLowerCase() === "x" ? world.game.player1 : world.game.player2;
+		});
+	});
+
+	world.game.board.spots.should.eql(expectedGameBoard);
 });

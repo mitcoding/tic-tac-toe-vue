@@ -60,6 +60,50 @@ function whoIsWinner(board) {
 	return findHorizontalWinner(board) || findVerticalWinner(board) || findDiagonalWinner(board) || { gamePiece: "" };
 }
 
+function getScore(board, depth) {
+	let player = whoIsWinner(board);
+
+	switch(player.gamePiece.toLowerCase() ) {
+		case "x" : return 10 - depth;
+		case "o" : return depth - 10;
+		default : return 0;
+	}
+}
+
+function getBestMoveHint(game, depth, move) {
+	if (game.isGameOver() ) { return { score: getScore(game.board, depth), move: move || [] }; }
+
+	var
+		max_score_index,
+		min_score_index,
+		moves = [],
+		scores = []
+	;
+
+	depth += 1;
+	game.board.getAvailableMoves().forEach(function(move) {
+		let possible_game = game.clone();
+
+		possible_game.board.doMove(move[0], move[1], game.getCurrentPlayer() );
+		scores.push(getBestMoveHint(possible_game, depth, move).score);
+		moves.push(move);
+	});
+	
+	if (game.getCurrentPlayer().gamePiece.toUpperCase() === "X") {
+		max_score_index = scores.indexOf(Math.max(...scores) );
+		return {
+			score: scores[max_score_index],
+			move: moves[max_score_index]
+		};
+	}
+	
+	min_score_index = scores.indexOf(Math.min(...scores) );
+	return {
+		score: scores[min_score_index],
+		move: moves[min_score_index]
+	};
+}
+
 export default class Game {
 	constructor(board) {
 		this.board = board;
@@ -87,6 +131,11 @@ export default class Game {
 		}
 
 		this.board.doMove(x, y, this.getCurrentPlayer() );
+		
+		if (this.isGameOver() === false && this.getCurrentPlayer() instanceof ComputerPlayer) {
+			let move = this.getBestMoveHint().move;
+			this.doMove(move[0], move[1]);
+		}
 	}
 
 	getCurrentPlayer() {
@@ -94,15 +143,24 @@ export default class Game {
 	}
 
 	getScore() {
-		let player = whoIsWinner(this.board);
-		switch(player.gamePiece.toLowerCase() ) {
-			case "x" : return 10;
-			case "o" : return -10;
-			default : return 0;
-		}
+		let depth = 0;
+		return getScore(this.board, depth);
 	}
 
 	isGameOver() {
 		return (9 - this.board.totalMoves === 0) || whoIsWinner(this.board) instanceof Player === true;
+	}
+
+	getBestMoveHint() {
+		let depth = 0;
+		return getBestMoveHint(this, depth);
+	}
+
+	clone() {
+		let clone = new Game(this.board.clone() );
+		clone.player1 = this.player1;
+		clone.player2 = this.player2;
+
+		return clone;
 	}
 }
