@@ -20,7 +20,7 @@ export default class Board {
 
 	doMove(x, y, player) {
 		if (this.isSpotEmpty(x, y) ) {
-			this.spots[x][y] = player;
+			this.spots[x].splice(y, 1, player);
 			this.totalMoves++;
 			return;
 		}

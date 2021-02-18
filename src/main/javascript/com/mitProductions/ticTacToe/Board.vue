@@ -2,7 +2,7 @@
 	<div class="board">
 		<div v-for="(row, x) in spots" :key="x">
 			<div v-for="(spot, y) in row" :key="y">
-				<spot @click="game.doMove(x, y);reRenderSpot(x, y);" :value="spot" />
+				<spot @click="game.doMove(x, y);" :value="spot" />
 			</div>
 		</div>
 		
@@ -29,11 +29,6 @@ export default {
 		value: {
 			type: Object,
 			default: () => ({})
-		}
-	},
-	methods: {
-		reRenderSpot(x, y) {
-			this.$set(this.spots[x], y, this.game.board.spots[x][y]);
 		}
 	}
 }
