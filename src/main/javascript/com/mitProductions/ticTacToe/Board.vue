@@ -1,8 +1,8 @@
 <template>
-	<div class="board">
-		<div v-for="(row, x) in spots" v-bind:key="x">
-			<div v-for="(spot, y) in row" v-bind:key="y">
-				<spot @click="game.doMove(x, y);handleUpdate();" :value="spot" />
+	<div class="board" :key="totalMoves">
+		<div v-for="(row, x) in spots" :key="x">
+			<div v-for="(spot, y) in row" :key="y">
+				<spot @click="game.doMove(x, y);recordMove();" :value="spot" />
 			</div>
 		</div>
 		
@@ -18,6 +18,7 @@ export default {
 	},
 	data: function() {
 		return {
+			totalMoves: this.game.board.totalMoves,
 			spots: this.game.board.spots
 		};
 	},
@@ -32,8 +33,8 @@ export default {
 		}
 	},
 	methods: {
-		handleUpdate() {
-			this.$forceUpdate();
+		recordMove() {
+			this.totalMoves = this.game.board.totalMoves;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <template>
-	<div @click="$emit('click');$emit('update')" class="spot">
+	<div @click="$emit('click');" class="spot">
 		<span
 			v-if="isPlayerInstance(value) === true"
 			:class="{ 'x' : value.gamePiece === 'X', 'o': value.gamePiece === 'O' }"
