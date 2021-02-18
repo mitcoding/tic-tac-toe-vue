@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Game from "./Game.js";
-import Board from "./Board.js";
+import Game from "../Game.js";
+import Board from "../Board.js";
 import BoardView from "./Board.vue";
 
 export default {

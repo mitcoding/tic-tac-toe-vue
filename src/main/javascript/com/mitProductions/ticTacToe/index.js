@@ -1,6 +1,6 @@
-import App from './TicTacToe.vue';
-import Home from "./Home.vue";
-import Game from "./Game.vue";
+import App from './components/TicTacToe.vue';
+import Home from "./components/Home.vue";
+import Game from "./components/Game.vue";
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
